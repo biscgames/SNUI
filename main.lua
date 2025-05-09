@@ -3,7 +3,7 @@ local click  = require("SNUI.core.clickHandler")
 local theme  = require("SNUI.themes.default")
 
 -- switch to a different built-in theme (optional)
-snui.setTheme(require("SNUI.themes.default"))
+snui.setTheme(require("SNUI.themes.resonance"))
 
 -- state
 local count = 0
