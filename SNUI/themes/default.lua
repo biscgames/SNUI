@@ -7,8 +7,8 @@ t.roundedCornersY = 0
 
 -- BUTTON
 t.buttonColorGradient = {
-    {241/255,241/255,241/255},
-    {220/255,220/255,220/255}
+    {241 / 255, 241 / 255, 241 / 255},
+    {220 / 255, 220 / 255, 220 / 255}
 }
 t.darkenMultiplier = 0.8 -- 1 = no darkening
 t.scaleClickMultiplier = 1 -- 1 = no scaleClickMultiplier

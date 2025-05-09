@@ -11,34 +11,9 @@ local count = 0
 -- create a frame for controls
 local controlFrame = snui.createNewFrame({
     x = 20, y = 20,
-    w = 200, h = 140,
+    w = 200, h = 200,
     title = "Controls"
 })
-
--- create buttons
-local incButton = snui.createNewButton({
-    text = "+1"
-})
-local resetButton = snui.createNewButton({
-    text = "Reset"
-})
-
--- hook up click callbacks
-function incButton:onClick(mouseBtn)
-    if mouseBtn == snui.MOUSE_BUTTON_LEFT then
-        count = count + 1
-    end
-end
-function resetButton:onClick(mouseBtn)
-    if mouseBtn == snui.MOUSE_BUTTON_LEFT then
-        count = 0
-    end
-end
-
--- add and layout buttons vertically
-controlFrame:addElement(incButton)
-controlFrame:addElement(resetButton)
-controlFrame:arrangeChildrenY(nil, 10)
 
 -- create a status frame that displays the count
 local statusFrame = snui.createNewFrame({
@@ -47,23 +22,55 @@ local statusFrame = snui.createNewFrame({
     title = "Status"
 })
 
--- use a button as a “read-only” display area (we just draw text)
-local display = snui.createNewButton({
+local display = snui.createNewLabel({
     w = 180, h = 40,
     text = "Count: 0"
 })
 
-function display:draw()
-    love.graphics.setColor(1,1,1,1)
-    local msg = "Count: " .. count
-    local fw, fh = love.graphics.getFont():getWidth(msg), love.graphics.getFont():getHeight()
-    local tx = self.x + (self.w - fw) / 2
-    local ty = self.y + (self.h - fh) / 2
-    love.graphics.print(msg, tx, ty)
+local function updateDisplay()
+    display.text = "Count: " .. count
 end
 
 statusFrame:addElement(display)
 statusFrame:arrangeChildrenY(nil, 20)
+
+-- create buttons
+local incButton = snui.createNewButton({
+    text = "+1"
+})
+local mulButton = snui.createNewButton({
+    text = "*2"
+})
+local resetButton = snui.createNewButton({
+    text = "Reset"
+})
+
+-- hook up click callbacks
+function incButton:onClick(mouseBtn)
+    if mouseBtn ~= snui.MOUSE_BUTTON_LEFT then return end
+    
+    count = count + 1
+    updateDisplay()
+end
+function mulButton:onClick(mouseBtn)
+    if mouseBtn ~= snui.MOUSE_BUTTON_LEFT then return end
+    
+    count = count * 2
+    updateDisplay()
+end
+function resetButton:onClick(mouseBtn)
+    if mouseBtn ~= snui.MOUSE_BUTTON_LEFT then return end
+    
+    count = 0
+    updateDisplay()
+end
+
+-- add and layout buttons vertically
+controlFrame:addElement(incButton)
+controlFrame:addElement(mulButton)
+controlFrame:addElement(resetButton)
+controlFrame:arrangeChildrenY(nil, 10)
+
 
 function love.update(dt)
     snui.onHover(love.mouse.getPosition())

@@ -1,4 +1,5 @@
 local btn = require("SNUI.core.button")
+local lbl = require("SNUI.core.label")
 local frm = require("SNUI.core.frame")
 local click = require("SNUI.core.clickHandler")
 local theme = require("SNUI.themes.default")
@@ -15,6 +16,7 @@ function m.setTheme(t)
     theme = t
 
     btn.setTheme(t)
+    lbl.setTheme(t)
     frm.setTheme(t)
 end
 
@@ -25,6 +27,11 @@ end
 
 function m.createNewButton(t)
     table.insert(m.elements, btn.newButton(t))
+    return m.elements[#m.elements]
+end
+
+function m.createNewLabel(t)
+    table.insert(m.elements, lbl.newLabel(t))
     return m.elements[#m.elements]
 end
 
