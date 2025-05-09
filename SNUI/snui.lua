@@ -31,6 +31,7 @@ end
 
 function m.createNewEdittext(t)
     table.insert(m.elements, edittxt.newEdittext(t))
+    return m.elements[#m.elements]
 end
 
 function m.mousepressed(x, y, button)

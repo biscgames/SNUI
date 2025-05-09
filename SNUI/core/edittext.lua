@@ -4,7 +4,7 @@ local m = {}
 function m.setTheme(t)
     theme = t
 end
-
+m.edittextTemplate = {}
 m.edittextTemplate = {
     type = "edittext",
     focused = false,
@@ -70,7 +70,16 @@ function m.edittextTemplate:draw()
 end
 
 function m.newEdittext(t)
-    
+    local temp = {}
+    for k,v in pairs(m.edittextTemplate) do
+        temp[k] = v
+    end
+    if t then
+        for k,v in pairs(t) do
+            temp[k] = v
+        end
+    end
+    return temp
 end
 
 return m
