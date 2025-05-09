@@ -39,12 +39,12 @@ t.button = {
     }
 }
 t.edittext = {
-    colorEdittext = t.frame.color,
+    colorEdittext = {1,1,1},
     allText = {
         fontText = love.graphics.newFont("SNUI/themes/resources/default/Ubuntu-Regular.ttf", 24)
     },
     text = {
-        colorText = {1,1,1},
+        colorText = {0,0,0},
     },
     placeholder = {
         colorText = {0.5,0.5,0.5}

@@ -22,6 +22,9 @@ local incButton = snui.createNewButton({
 local resetButton = snui.createNewButton({
     text = "Reset"
 })
+local edittext = snui.createNewEdittext({
+    placehold = "Enter Number Here..."
+})
 
 -- hook up click callbacks
 function incButton:onClick(mouseBtn)
@@ -38,6 +41,7 @@ end
 -- add and layout buttons vertically
 controlFrame:addElement(incButton)
 controlFrame:addElement(resetButton)
+controlFrame:addElement(edittext)
 controlFrame:arrangeChildrenY(nil, 10)
 
 -- create a status frame that displays the count

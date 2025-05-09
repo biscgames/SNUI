@@ -1,4 +1,5 @@
 local btn = require("SNUI.core.button")
+local edittxt = require("SNUI.core.edittext")
 local frm = require("SNUI.core.frame")
 local click = require("SNUI.core.clickHandler")
 local theme = require("SNUI.themes.default")
@@ -26,6 +27,10 @@ end
 function m.createNewButton(t)
     table.insert(m.elements, btn.newButton(t))
     return m.elements[#m.elements]
+end
+
+function m.createNewEdittext(t)
+    table.insert(m.elements, edittxt.newEdittext(t))
 end
 
 function m.mousepressed(x, y, button)
@@ -113,8 +118,10 @@ function m.mousereleased(x, y)
 end
 
 function m.draw()
-    for _, element in ipairs(m.elements) do
-        element:draw()
+    for i, element in ipairs(m.elements) do
+        if element.draw then
+            element:draw()
+        end
     end
 end
 

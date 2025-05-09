@@ -79,7 +79,7 @@ function m.buttonTemplate:draw()
         end
 
         local outerOutlineColor = {}
-        if theme.buttonOutline then
+        if theme.button.outlines.boolOutlines then
             for _, v in ipairs(theme.button.outlines.colorOuterOutline) do
                 table.insert(outerOutlineColor, v * self.brightness)
             end
@@ -117,7 +117,7 @@ function m.buttonTemplate:draw()
             mesh = buttonGradientHover
         end
 
-        love.graphics.draw(mesh, buttonAxis.x, buttonAxis.y, 0, self.w - (theme.buttonOuterOutlineThickness or 5),
+        love.graphics.draw(mesh, buttonAxis.x, buttonAxis.y, 0, self.w - (theme.button.outlines.thicknessOuterOutline or 5),
             self.h - (theme.button.outlines.thicknessOuterOutline or 5))
 
         if theme.buttonOutline then
