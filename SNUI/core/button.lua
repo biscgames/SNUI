@@ -5,34 +5,45 @@ table.unpack = table.unpack or unpack
 
 local m = {}
 
+local buttonGradient = gradientMesh("vertical", table.unpack(theme.button.colorButton))
+local buttonGradientHover
+local buttonGradientPressed
+
 function m.setTheme(t)
     theme = t
+    buttonGradient = gradientMesh("vertical", table.unpack(theme.button.colorButton))
+    m.buttonColorUpdate()
 end
 
-local buttonGradient = gradientMesh("vertical", table.unpack(theme.buttonColorGradient))
 
-local temp = {}
-for _, v in ipairs(theme.buttonColorGradient) do
-    local l = {}
-    for _, e in ipairs(v) do
-        table.insert(l, e * theme.darkenMultiplier)
+function m.buttonColorUpdate()
+    local temp = {}
+    for _, v in ipairs(theme.button.colorButton) do
+        local l = {}
+        for _, e in ipairs(v) do
+            table.insert(l, e * theme.button.brightnessModifier.numberWhenPressed)
+        end
+        table.insert(temp, l)
     end
-    table.insert(temp, l)
-end
-local buttonGradientPressed = gradientMesh("vertical", table.unpack(temp))
+    buttonGradientPressed = gradientMesh("vertical", table.unpack(temp))
 
-temp = {}
-for _, v in ipairs(theme.buttonColorGradient) do
-    local l = {}
-    for _, e in ipairs(v) do
-        table.insert(l, e * theme.lightenMultiplier)
+    temp = {}
+    for _, v in ipairs(theme.button.colorButton) do
+        local l = {}
+        for _, e in ipairs(v) do
+            table.insert(l, e * theme.button.brightnessModifier.numberWhenHover)
+        end
+        table.insert(temp, l)
     end
-    table.insert(temp, l)
+    buttonGradientHover = gradientMesh("vertical", table.unpack(temp))
 end
-local buttonGradientHover = gradientMesh("vertical", table.unpack(temp))
+
+m.buttonColorUpdate()
 
 m.buttonTemplate = {
     type = "button",
+    focused = false,
+    boolCanFocus = false,
     x = 0,
     y = 0,
     w = 180,
@@ -58,7 +69,7 @@ m.buttonTemplate = {
 
 function m.buttonTemplate:draw()
     if self.parent then
-        self.literal.scale = self.literal.scale + (self.scale - self.literal.scale) / theme.scaleEase
+        self.literal.scale = self.literal.scale + (self.scale - self.literal.scale) / theme.button.scaleModifier.lerping.easeSpeed
         -- Make sure that the button contains these keys
         local necessities = {"x", "y", "w", "h", "text", "brightness"}
         for _, i in ipairs(necessities) do
@@ -69,31 +80,30 @@ function m.buttonTemplate:draw()
 
         local outerOutlineColor = {}
         if theme.buttonOutline then
-            for _, v in ipairs(theme.buttonOuterOutlineColor) do
+            for _, v in ipairs(theme.button.outlines.colorOuterOutline) do
                 table.insert(outerOutlineColor, v * self.brightness)
             end
         else
-            for _, v in ipairs(theme.buttonColorGradient[1]) do
+            for _, v in ipairs(theme.button.colorButton[1]) do
                 table.insert(outerOutlineColor, v * self.brightness)
             end
         end
 
         love.graphics.setColor(outerOutlineColor)
-        love.graphics.rectangle("fill", self.x, self.y, self.w, self.h, theme.roundedCornersX or 0,
-            theme.roundedCornersY or 0)
+        love.graphics.rectangle("fill", self.x, self.y, self.w, self.h, theme.affectsAll.xRoundedCorners or 0, theme.affectsAll.yRoundedCorners or 0)
 
         love.graphics.setColor(1, 1, 1, 1)
 
         local buttonAxis = {
-            x = self.x + ((theme.buttonOuterOutlineThickness or 5) / 2),
-            y = self.y + ((theme.buttonOuterOutlineThickness or 5) / 2)
+            x = self.x + ((theme.button.outlines.thicknessOuterOutline or 5) / 2),
+            y = self.y + ((theme.button.outlines.thicknessOuterOutline or 5) / 2)
         }
 
         love.graphics.stencil(function()
-            local outline = (theme.buttonOuterOutlineThickness or 5)
+            local outline = (theme.button.outlines.thicknessOuterOutline or 5)
             love.graphics.setColor(1, 1, 1, 1)
             love.graphics.rectangle("fill", buttonAxis.x, buttonAxis.y, self.w - outline, self.h - outline,
-                theme.roundedCornersX or 0, theme.roundedCornersY or 0)
+                theme.affectsAll.xRoundedCorners or 0, theme.affectsAll.yRoundedCorners or 0)
         end, "replace", 1)
 
         love.graphics.setStencilTest("greater", 0)
@@ -108,37 +118,37 @@ function m.buttonTemplate:draw()
         end
 
         love.graphics.draw(mesh, buttonAxis.x, buttonAxis.y, 0, self.w - (theme.buttonOuterOutlineThickness or 5),
-            self.h - (theme.buttonOuterOutlineThickness or 5))
+            self.h - (theme.button.outlines.thicknessOuterOutline or 5))
 
         if theme.buttonOutline then
             local ioc = {}
-            for _, v in ipairs(theme.buttonInnerOutlineColor) do
+            for _, v in ipairs(theme.button.outlines.colorInnerOutline) do
                 table.insert(ioc, v * self.brightness)
             end
             love.graphics.setColor(ioc)
-            love.graphics.setLineWidth(theme.buttonInnerOutlineThickness or 3)
-            love.graphics.rectangle("line", buttonAxis.x, buttonAxis.y, self.w - theme.buttonOuterOutlineThickness,
-                self.h - theme.buttonOuterOutlineThickness, theme.roundedCornersX or 0, theme.roundedCornersY or 0)
+            love.graphics.setLineWidth(theme.button.outlines.thicknessInnerOutline or 3)
+            love.graphics.rectangle("line", buttonAxis.x, buttonAxis.y, self.w - theme.button.outlines.thicknessOuterOutline,
+                self.h - theme.buttonOuterOutlineThickness, theme.affectsAll.xRoundedCorners or 0, theme.affectsAll.yRoundedCorners or 0)
         end
 
         love.graphics.setStencilTest()
 
         local tc = {}
-        for _, v in ipairs(theme.textColor) do
+        for _, v in ipairs(theme.button.text.colorText) do
             table.insert(tc, v * self.brightness)
         end
 
-        local outline = (theme.buttonOuterOutlineThickness or 5)
+        local outline = (theme.button.outlines.thicknessOuterOutline or 5)
         love.graphics.setColor(tc)
-        love.graphics.setFont(theme.font)
-        if theme.font:getWidth(self.text) > self.w - outline then
+        love.graphics.setFont(theme.button.text.fontText)
+        if theme.button.text.fontText:getWidth(self.text) > self.w - outline then
             love.graphics.print(self.text:sub(1, #self.text - 5) .. "...", buttonAxis.x +
-                (((self.w - outline) / 2) - (theme.font:getWidth(self.text:sub(1, #self.text - 5)) / 2)),
-                buttonAxis.y + (((self.h - outline) / 2) - (theme.font:getHeight() / 2)))
+                (((self.w - outline) / 2) - (theme.button.text.fontText:getWidth(self.text:sub(1, #self.text - 5)) / 2)),
+                buttonAxis.y + (((self.h - outline) / 2) - (theme.button.text.fontText:getHeight() / 2)))
         else
             love.graphics.print(self.text,
-                buttonAxis.x + (((self.w - outline) / 2) - (theme.font:getWidth(self.text) / 2)),
-                buttonAxis.y + (((self.h - outline) / 2) - (theme.font:getHeight() / 2)))
+                buttonAxis.x + (((self.w - outline) / 2) - (theme.button.text.fontText:getWidth(self.text) / 2)),
+                buttonAxis.y + (((self.h - outline) / 2) - (theme.button.text.fontText:getHeight() / 2)))
         end
     end
 end

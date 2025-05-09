@@ -74,9 +74,9 @@ function m.update(dt)
         end
         if e.type == "button" then
             if e.mouseclick and not e.hover then
-                e.brightness = theme.darkenMultiplier
+                e.brightness = theme.button.brightnessModifier.numberWhenPressed
             elseif e.hover and not e.mouseclick then
-                e.brightness = theme.lightenMultiplier
+                e.brightness = theme.button.brightnessModifier.numberWhenHover
             else
                 e.brightness = 1
             end

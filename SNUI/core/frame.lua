@@ -107,8 +107,8 @@ function m.frameTemplate:draw()
     end
 
     if self.visible then
-        love.graphics.setColor(theme.frameColor)
-        love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
+        love.graphics.setColor(theme.frame.color)
+        love.graphics.rectangle("fill", self.x, self.y, self.w, self.h, theme.affectsAll.xRoundedCorners or 0,theme.affectsAll.yRoundedCorners or 0)
         for i, element in ipairs(self.elements) do
             if element.draw then
                 element:draw()

@@ -1,31 +1,58 @@
 local t = {}
-t.themeVersion = 1
+t.themeVersion = 2
 
--- EVERYTHING
-t.roundedCornersX = 0
-t.roundedCornersY = 0
-
--- BUTTON
-t.buttonColorGradient = {
-    {241/255,241/255,241/255},
-    {220/255,220/255,220/255}
+t.affectsAll = {
+    xRoundedCorners = 0,
+    yRoundedCorners = 0
 }
-t.darkenMultiplier = 0.8 -- 1 = no darkening
-t.scaleClickMultiplier = 1 -- 1 = no scaleClickMultiplier
-t.lightenMultiplier = 1.2
-t.scaleHoverMultiplier = 1 -- 1 = no scaleHoverMultiplier
-t.scaleEase = 1 -- 1 = instant
--- BUTTON>OUTLINE
-t.buttonOutline = true
-t.buttonInnerOutlineColor = {1, 1, 1, 0.7}
-t.buttonOuterOutlineColor = {100 / 255, 100 / 255, 100 / 255}
-t.buttonInnerOutlineThickness = 3
-t.buttonOuterOutlineThickness = 5
--- BUTTON>TEXT
-t.textColor = {85 / 255, 140 / 255, 203 / 255}
-t.font = love.graphics.newFont("SNUI/themes/resources/default/Ubuntu-Regular.ttf", 24)
+t.frame = {
+    color = {238 / 255, 238 / 255, 238 / 255}
+}
+t.button = {
+    colorButton = {
+        {241/255,241/255,241/255},
+        {220/255,220/255,220/255}
+    },
 
--- FRAME
-t.frameColor = {238 / 255, 238 / 255, 238 / 255}
+    outlines = {
+        boolOutlines = true,
+        colorInnerOutline = {1, 1, 1, 0.7},
+        colorOuterOutline = {100 / 255, 100 / 255, 100 / 255},
+        thicknessInnerOutline = 3,
+        thicknessOuterOutline = 5
+    },
+    text = {
+        fontText = love.graphics.newFont("SNUI/themes/resources/default/Ubuntu-Regular.ttf", 24),
+        colorText = {85 / 255, 140 / 255, 203 / 255}
+    },
+    brightnessModifier = {
+        numberWhenHover = 1.2,
+        numberWhenPressed = 0.8
+    },
+    scaleModifier = {
+        numberWhenHover = 1,
+        numberWhenPressed = 1,
+        lerping = {
+            easeSpeed = 1, -- 1 FOR INSTANT
+            lerpType = 0 -- 0 FOR DIVISION, 1 FOR MULTIPLICATION
+        }
+    }
+}
+t.edittext = {
+    colorEdittext = t.frame.color,
+    allText = {
+        fontText = love.graphics.newFont("SNUI/themes/resources/default/Ubuntu-Regular.ttf", 24)
+    },
+    text = {
+        colorText = {1,1,1},
+    },
+    placeholder = {
+        colorText = {0.5,0.5,0.5}
+    },
+    outlines = {
+        colorOuterOutline = {0,0,0},
+        thicknessOuterOutline = 5
+    }
+}
 
-return t -- {buttonColorGradient,buttonOutline...}
+return t
