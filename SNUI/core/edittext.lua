@@ -77,7 +77,7 @@ function m.edittextTemplate:onClick(button)
         self.focused = true
     end
 end
-function m.edittextTemplate:keypress(key)
+function m.edittextTemplate:keypressed(key)
     if self.focused then
         local replaceKey = {
             ["space"]=" ",
@@ -87,7 +87,11 @@ function m.edittextTemplate:keypress(key)
         for k,v in pairs(replaceKey) do
             if k == key then key = v end
         end
-        self.text = self.text..key
+        if key ~= "backspace" then
+            self.text = self.text..key
+        else
+            self.text = self.text:sub(1,-2)
+        end
     end
 end
 

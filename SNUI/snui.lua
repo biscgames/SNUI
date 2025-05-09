@@ -125,13 +125,15 @@ function m.keypressed(key)
     local function onKeypress(e)
         if e.keypressed then
             e:keypressed(key)
+            return true
+        else
+            return false
         end
     end
     for _,element in ipairs(m.elements) do
-        onKeypress(element)
-        if element.elements then
+        if not onKeypress(element) and element.elements then
             for _,c in ipairs(element.elements) do
-                onKeypress(c)
+                if onKeypress(c) then return end
             end
         end
     end
