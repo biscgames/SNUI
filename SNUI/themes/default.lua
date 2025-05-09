@@ -51,7 +51,7 @@ t.edittext = {
     },
     outlines = {
         colorOuterOutline = {0,0,0},
-        thicknessOuterOutline = 5
+        thicknessOuterOutline = 3
     }
 }
 

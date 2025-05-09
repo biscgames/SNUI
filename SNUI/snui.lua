@@ -39,7 +39,10 @@ function m.mousepressed(x, y, button)
         if e.onClick and click.mouseIsInArea(x, y, e) then
             e.mouseclick = true
             e:onClick(button)
+            if e.boolCanFocus then e.focused = true end
             return true
+        else
+            e.focused = false
         end
         return false
     end
@@ -113,6 +116,22 @@ function m.mousereleased(x, y)
         if element.elements then
             for _, c in ipairs(element.elements) do
                 onMouseReleased(c)
+            end
+        end
+    end
+end
+
+function m.keypressed(key)
+    local function onKeypress(e)
+        if e.keypressed then
+            e:keypressed(key)
+        end
+    end
+    for _,element in ipairs(m.elements) do
+        onKeypress(element)
+        if element.elements then
+            for _,c in ipairs(element.elements) do
+                onKeypress(c)
             end
         end
     end

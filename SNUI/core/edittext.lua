@@ -8,6 +8,7 @@ m.edittextTemplate = {}
 m.edittextTemplate = {
     type = "edittext",
     focused = false,
+    boolCanFocus = true,
     x = 0,
     y = 0,
     w = 180,
@@ -36,8 +37,8 @@ function m.edittextTemplate:draw()
         theme.affectsAll.yRoundedCorners
     )
 
-    local xCalculated = self.x+thicknessOuterOutline
-    local yCalculated = self.y+thicknessOuterOutline
+    local xCalculated = self.x+(thicknessOuterOutline/2)
+    local yCalculated = self.y+(thicknessOuterOutline/2)
     local wCalculated = self.w-thicknessOuterOutline
     local hCalculated = self.h-thicknessOuterOutline
 
@@ -57,15 +58,36 @@ function m.edittextTemplate:draw()
         love.graphics.print(
             self.placeholder,
             xCalculated+5,
-            (hCalculated/2)-(edittextFont:getHeight()/2)
+            self.y+(hCalculated/2)-(edittextFont:getHeight()/2)
         )
     else
         love.graphics.setColor(colorEdittextText)
         love.graphics.print(
             self.text,
             xCalculated+5,
-            (hCalculated/2)-(edittextFont:getHeight()/2)
+            self.y+(hCalculated/2)-(edittextFont:getHeight()/2)
         )
+    end
+end
+function m.edittextTemplate:onClick(button)
+    if button == 0 then
+        for _,obj in ipairs(self.parent.elements) do
+            obj.focused = false
+        end
+        self.focused = true
+    end
+end
+function m.edittextTemplate:keypress(key)
+    if self.focused then
+        local replaceKey = {
+            ["space"]=" ",
+            ["tab"]="",
+            ["return"]="",
+        }
+        for k,v in pairs(replaceKey) do
+            if k == key then key = v end
+        end
+        self.text = self.text..key
     end
 end
 

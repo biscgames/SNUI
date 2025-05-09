@@ -11,7 +11,7 @@ local count = 0
 -- create a frame for controls
 local controlFrame = snui.createNewFrame({
     x = 20, y = 20,
-    w = 200, h = 140,
+    w = 200, h = 260,
     title = "Controls"
 })
 
@@ -23,7 +23,10 @@ local resetButton = snui.createNewButton({
     text = "Reset"
 })
 local edittext = snui.createNewEdittext({
-    placehold = "Enter Number Here..."
+    placeholder = "Enter num..."
+})
+local incInputButton = snui.createNewButton({
+    text = "+(input)"
 })
 
 -- hook up click callbacks
@@ -37,11 +40,17 @@ function resetButton:onClick(mouseBtn)
         count = 0
     end
 end
+function incInputButton:onClick(mouseBtn)
+    if mouseBtn == snui.MOUSE_BUTTON_LEFT then
+        count = count + tonumber(edittext.text)
+    end
+end
 
 -- add and layout buttons vertically
 controlFrame:addElement(incButton)
 controlFrame:addElement(resetButton)
 controlFrame:addElement(edittext)
+controlFrame:addElement(incInputButton)
 controlFrame:arrangeChildrenY(nil, 10)
 
 -- create a status frame that displays the count
@@ -58,7 +67,7 @@ local display = snui.createNewButton({
 })
 
 function display:draw()
-    love.graphics.setColor(1,1,1,1)
+    love.graphics.setColor(0,0,0,1)
     local msg = "Count: " .. count
     local fw, fh = love.graphics.getFont():getWidth(msg), love.graphics.getFont():getHeight()
     local tx = self.x + (self.w - fw) / 2
@@ -80,6 +89,10 @@ end
 
 function love.mousereleased(x,y,button)
     snui.mousereleased(x,y)
+end
+
+function love.keypressed(key,scancode,isrepeat)
+    snui.keypressed(key)
 end
 
 function love.draw()
