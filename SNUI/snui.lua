@@ -138,6 +138,23 @@ function m.keypressed(key)
         end
     end
 end
+function m.keyreleased(key)
+    local function onKeyReleased(e)
+        if e.keyreleased then
+            e:keyreleased(key)
+            return true
+        else
+            return false
+        end
+    end
+    for _,element in ipairs(m.elements) do
+        if not onKeyReleased(element) and element.elements then
+            for _,c in ipairs(element.elements) do
+                if onKeyReleased(c) then return end
+            end
+        end
+    end
+end
 
 function m.draw()
     for i, element in ipairs(m.elements) do

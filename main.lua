@@ -1,9 +1,9 @@
 local snui   = require("SNUI.snui")
 local click  = require("SNUI.core.clickHandler")
-local theme  = require("SNUI.themes.default")
+local theme  = require("SNUI.themes.resonance")
 
 -- switch to a different built-in theme (optional)
-snui.setTheme(require("SNUI.themes.default"))
+snui.setTheme(theme)
 
 -- state
 local count = 0
@@ -93,6 +93,9 @@ end
 
 function love.keypressed(key,scancode,isrepeat)
     snui.keypressed(key)
+end
+function love.keyreleased(key,scancode,isrepeat)
+    snui.keyreleased(key)
 end
 
 function love.draw()

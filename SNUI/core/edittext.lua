@@ -14,7 +14,8 @@ m.edittextTemplate = {
     w = 180,
     h = 54,
     placeholder = "Text here...",
-    text = ""
+    text = "",
+    whenReturnButton = function(self)end
 }
 function m.edittextTemplate:draw()
     local colorPlaceholder = theme.edittext.placeholder.colorText or {0.5,0.5,0.5}
@@ -34,7 +35,8 @@ function m.edittextTemplate:draw()
         self.w,
         self.h,
         theme.affectsAll.xRoundedCorners,
-        theme.affectsAll.yRoundedCorners
+        theme.affectsAll.yRoundedCorners,
+        16
     )
 
     local xCalculated = self.x+(thicknessOuterOutline/2)
@@ -50,7 +52,8 @@ function m.edittextTemplate:draw()
         wCalculated,
         hCalculated,
         theme.affectsAll.xRoundedCorners,
-        theme.affectsAll.yRoundedCorners
+        theme.affectsAll.yRoundedCorners,
+        16
     )
 
     if self.text == "" then
@@ -68,6 +71,22 @@ function m.edittextTemplate:draw()
             self.y+(hCalculated/2)-(edittextFont:getHeight()/2)
         )
     end
+
+    if self.focused then
+        local xCalculatedCursor = xCalculated
+        for s in self.text:gmatch(".") do
+            xCalculatedCursor = xCalculatedCursor + edittextFont:getWidth(s)
+        end
+
+        love.graphics.setColor(0,0,0)
+        love.graphics.rectangle(
+            "fill",
+            xCalculatedCursor,
+            self.y+(hCalculated/2)-(edittextFont:getHeight()/2),
+            edittextFont:getWidth(self.text[#self.text] or "A")/10,
+            edittextFont:getHeight()
+        )
+    end
 end
 function m.edittextTemplate:onClick(button)
     if button == 0 then
@@ -83,15 +102,36 @@ function m.edittextTemplate:keypressed(key)
             ["space"]=" ",
             ["tab"]="",
             ["return"]="",
+            ["lshift"]="",
+            ["rshift"]=""
         }
+        if key == "lshift" or key == "rshift" then
+            self.boolShiftKey = true
+        end
+
         for k,v in pairs(replaceKey) do
             if k == key then key = v end
         end
-        if key ~= "backspace" then
+
+        if self.boolShiftKey then
+            key = require("SNUI.lib.replacedByShift")(key)
+        end
+
+        if string.lower(key) ~= "backspace" then
             self.text = self.text..key
+            if key == "return" then
+                self.focused = false
+                self:whenReturnButton()
+            end
         else
             self.text = self.text:sub(1,-2)
         end
+    end
+end
+
+function m.edittextTemplate:keyreleased(key)
+    if key == "lshift" or key == "rshift" then
+        if self.focused then self.boolShiftKey = false end
     end
 end
 
