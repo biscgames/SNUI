@@ -1,4 +1,4 @@
-local theme = require("SNUI.themes.default")
+local theme = package.loaded["SNUI.core.theme"]
 local gradientMesh = require("SNUI.lib.gradient")
 
 table.unpack = table.unpack or unpack
@@ -9,11 +9,11 @@ local buttonGradient = gradientMesh("vertical", table.unpack(theme.button.colorB
 local buttonGradientHover
 local buttonGradientPressed
 
-function m.setTheme(t)
-    theme = t
-    buttonGradient = gradientMesh("vertical", table.unpack(theme.button.colorButton))
-    m.buttonColorUpdate()
-end
+-- function m.setTheme(t)
+--     theme = t
+--     buttonGradient = gradientMesh("vertical", table.unpack(theme.button.colorButton))
+--     m.buttonColorUpdate()
+-- end
 
 
 function m.buttonColorUpdate()

@@ -1,9 +1,6 @@
-local theme = require("SNUI.themes.default")
+local theme = package.loaded["SNUI.core.theme"]
 local m = {}
 
-function m.setTheme(t)
-    theme = t
-end
 m.edittextTemplate = {}
 m.edittextTemplate = {
     type = "edittext",
@@ -78,12 +75,12 @@ function m.edittextTemplate:draw()
             xCalculatedCursor = xCalculatedCursor + edittextFont:getWidth(s)
         end
 
-        love.graphics.setColor(0,0,0)
+        love.graphics.setColor(theme.edittext.cursor.colorCursor)
         love.graphics.rectangle(
             "fill",
             xCalculatedCursor,
             self.y+(hCalculated/2)-(edittextFont:getHeight()/2),
-            edittextFont:getWidth(self.text[#self.text] or "A")/10,
+            (edittextFont:getWidth(self.text[#self.text] or "A")/10)*theme.edittext.cursor.thicknessMultiplierCursor,
             edittextFont:getHeight()
         )
     end

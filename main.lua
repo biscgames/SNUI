@@ -1,9 +1,10 @@
 local snui   = require("SNUI.snui")
 local click  = require("SNUI.core.clickHandler")
-local theme  = require("SNUI.themes.resonance")
 
 -- switch to a different built-in theme (optional)
+local theme  = require("SNUI.themes.resonance")
 snui.setTheme(theme)
+
 
 -- state
 local count = 0

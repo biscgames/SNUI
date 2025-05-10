@@ -1,8 +1,13 @@
+require("SNUI.core.theme")
+package.loaded["SNUI.core.theme"] = require("SNUI.themes.default")
+local theme = package.loaded["SNUI.core.theme"]
+
+theme = require("SNUI.themes.default")
+
 local btn = require("SNUI.core.button")
 local edittxt = require("SNUI.core.edittext")
 local frm = require("SNUI.core.frame")
 local click = require("SNUI.core.clickHandler")
-local theme = require("SNUI.themes.default")
 
 local m = {}
 
@@ -13,10 +18,7 @@ m.MOUSE_BUTTON_MIDDLE = 3
 m.elements = {}
 
 function m.setTheme(t)
-    theme = t
-
-    btn.setTheme(t)
-    frm.setTheme(t)
+    package.loaded["SNUI.core.theme"] = t
 end
 
 function m.createNewFrame(t)

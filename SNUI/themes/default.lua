@@ -52,6 +52,10 @@ t.edittext = {
     outlines = {
         colorOuterOutline = {0,0,0},
         thicknessOuterOutline = 3
+    },
+    cursor = {
+        colorCursor = {85 / 255, 140 / 255, 203 / 255,0.5},
+        thicknessMultiplierCursor = 2
     }
 }
 

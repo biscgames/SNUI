@@ -1,11 +1,7 @@
-local theme = require("SNUI.themes.default")
+local theme = package.loaded["SNUI.core.theme"]
 local btn = require("SNUI.core.button")
 
 local m = {}
-
-function m.setTheme(t)
-    theme = t
-end
 
 m.frameTemplate = {
     type = "frame",
